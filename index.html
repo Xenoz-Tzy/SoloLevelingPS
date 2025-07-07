@@ -9,26 +9,54 @@
       margin: 0;
       padding: 0;
       font-family: 'Segoe UI', sans-serif;
-      background: #0f0f0f;
+      background-image: url('https://cdn.wallpapersafari.com/26/74/Yj6GJv.jpg');
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
       color: white;
       display: flex;
       flex-direction: column;
       align-items: center;
       text-align: center;
       min-height: 100vh;
-      background-image: linear-gradient(to right, #1a1a1a, #2a2a2a);
     }
+
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: -1;
+    }
+
     h1 {
       color: violet;
       margin-top: 50px;
       font-size: 3rem;
+      white-space: nowrap;
+      overflow: hidden;
+      border-right: .15em solid violet;
+      width: 0;
+      animation: typing 2.5s steps(30, end) forwards, blink .75s step-end infinite;
     }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 16ch }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
     p {
       color: #ccc;
       max-width: 600px;
       font-size: 1.2rem;
       margin: 10px 20px 30px 20px;
+      animation: fadeIn 1.5s ease-in-out;
     }
+
     .status {
       background-color: #4caf50;
       padding: 10px 30px;
@@ -36,31 +64,66 @@
       color: white;
       font-weight: bold;
       margin-bottom: 30px;
+      animation: fadeIn 2s ease-in-out;
     }
+
     a {
       display: block;
       color: #8a2be2;
       text-decoration: none;
       margin: 10px 0;
       font-size: 1.1rem;
+      animation: fadeIn 2.5s ease-in-out;
     }
+
     .ip-box {
-      background: #222;
-      border-radius: 10px;
-      padding: 15px;
-      margin: 20px;
-      max-width: 500px;
+      background: #111;
+      border-left: 5px solid #8a2be2;
+      padding: 20px;
+      margin: 30px;
+      max-width: 600px;
+      text-align: left;
+      font-family: 'Courier New', monospace;
+      font-size: 14px;
+      white-space: pre-wrap;
+      color: #00ff00;
+      animation: fadeIn 3s ease-in-out;
+      position: relative;
     }
-    code {
-      color: #90ee90;
-      display: block;
-      margin: 5px 0;
+
+    .copy-btn {
+      background-color: violet;
+      color: black;
+      border: none;
+      padding: 8px 16px;
+      border-radius: 5px;
+      font-weight: bold;
+      margin-top: 15px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .copy-btn:hover {
+      background-color: #b266ff;
+    }
+
+    .copied-msg {
+      color: lightgreen;
+      margin-top: 8px;
+      font-size: 0.9rem;
+      display: none;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
 
   <h1>SoloLevelingPS</h1>
+
   <p>
     Selamat datang di server private Growtopia <span style="color:violet;">SoloLevelingPS</span>!  
     Nikmati pengalaman bermain unik dengan item Solo Leveling eksklusif, drop rate custom, 
@@ -79,13 +142,28 @@
     📋 Salin PTUNNEL Config (WINDOWS)
   </a>
 
-  <div class="ip-box">
-    <strong>Salin IP Config Manual (tambahkan di hosts):</strong>
-    <code>91.134.85.13 growtopia1.com</code>
-    <code>91.134.85.13 growtopia2.com</code>
-    <code>91.134.85.13 www.growtopia1.com</code>
-    <code>91.134.85.13 www.growtopia2.com</code>
+  <div class="ip-box" id="ipBox">
+    <strong># Tambahkan baris berikut ke file hosts:</strong>
+<pre id="ipText">
+91.134.85.13 growtopia1.com
+91.134.85.13 growtopia2.com
+91.134.85.13 www.growtopia1.com
+91.134.85.13 www.growtopia2.com
+</pre>
+    <button class="copy-btn" onclick="copyIP()">📋 Salin IP</button>
+    <div id="copiedMsg" class="copied-msg">✅ Disalin!</div>
   </div>
+
+  <script>
+    function copyIP() {
+      const ipText = document.getElementById('ipText').innerText;
+      navigator.clipboard.writeText(ipText).then(() => {
+        const msg = document.getElementById('copiedMsg');
+        msg.style.display = 'block';
+        setTimeout(() => { msg.style.display = 'none'; }, 2000);
+      });
+    }
+  </script>
 
 </body>
 </html>
